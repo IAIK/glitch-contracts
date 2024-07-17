@@ -1,0 +1,21 @@
+[submodule "sw_verifier/external/fmt"]
+	path = sw_verifier/external/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "sw_verifier/external/backward-cpp"]
+	path = sw_verifier/external/backward-cpp
+	url = https://github.com/bombela/backward-cpp
+[submodule "sw_verifier/external/spdlog"]
+	path = sw_verifier/external/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "sw_verifier/external/json"]
+	path = sw_verifier/external/json
+	url = https://github.com/nlohmann/json.git
+[submodule "sw_verifier/external/cxxopts"]
+	path = sw_verifier/external/cxxopts
+	url = https://github.com/jarro2783/cxxopts.git
+[submodule "sw_verifier/external/kissat"]
+	path = sw_verifier/external/kissat
+	url = https://github.com/arminbiere/kissat.git
+[submodule "sw_verifier/external/cadical"]
+	path = sw_verifier/external/cadical
+	url = https://github.com/arminbiere/cadical.git

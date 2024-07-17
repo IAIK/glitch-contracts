@@ -1,0 +1,70 @@
+// proof that all cases in operator^ are covered
+
+std::unique_ptr<PropVarSet> operator^(PropVarSet& first, PropVarSet& second)
+{
+    // ...
+    for (auto const& [label, s2] : second.vars) {
+        auto const& s1 = first[label];
+        if (s1 == s2)                            // s1 in {0, 1, v}, s2 in {1, v}
+            // (s1, s2) in {
+            //    ( 0, 1), ( 0, v), ( 0, -v), ( 0, w), ( 0, -w),
+            //    ( 1, 1), ( 1, v), ( 1, -v), ( 1, w), ( 1, -w),
+            //    ( v, 1), ( v, v), ( v, -v), ( v, w), ( v, -w),
+            //    (-v, 1), (-v, v), (-v, -v), (-v, w), (-v, -w),
+            //    ( w, 1), ( w, v), ( w, -v), ( w, w), ( w, -w),
+            //    (-w, 1), (-w, v), (-w, -v), (-w, w), (-w, -w),
+            // }
+            res.vars.erase(label);
+        else if (s1 == -s2)                      // s1 in {0, 1, v}, s2 in {1, v}, s1!=s2
+            // (s1, s2) in {
+            //    ( 0, 1), ( 0, v), ( 0, -v), ( 0, w), ( 0, -w),
+            //             ( 1, v), ( 1, -v), ( 1, w), ( 1, -w),
+            //    ( v, 1),          ( v, -v), ( v, w), ( v, -w),
+            //    (-v, 1), (-v, v),           (-v, w), (-v, -w),
+            //    ( w, 1), ( w, v), ( w, -v),          ( w, -w),
+            //    (-w, 1), (-w, v), (-w, -v), (-w, w),
+            // }
+            res.vars[label] = ONE;
+        else if(s1 == ZERO)          // s1 in {0, 1, v}, s2 in {1, v}, s1!=s2, s1!=-s2
+            // (s1, s2) in {
+            //    ( 0, 1), ( 0, v), ( 0, -v), ( 0, w), ( 0, -w),
+            //             ( 1, v), ( 1, -v), ( 1, w), ( 1, -w),
+            //    ( v, 1),                    ( v, w), ( v, -w),
+            //    (-v, 1),                    (-v, w), (-v, -w),
+            //    ( w, 1), ( w, v), ( w, -v),
+            //    (-w, 1), (-w, v), (-w, -v),
+            // }
+            res.vars[label] = s2;
+        else if(s1 == ONE)           // s1 in {1, v}, s2 in {1, v}, s1!=s2, s1!=-s2
+            // (s1, s2) in {
+            //
+            //             ( 1, v), ( 1, -v), ( 1, w), ( 1, -w),
+            //    ( v, 1),                    ( v, w), ( v, -w),
+            //    (-v, 1),                    (-v, w), (-v, -w),
+            //    ( w, 1), ( w, v), ( w, -v),
+            //    (-w, 1), (-w, v), (-w, -v),
+            // }
+            res.vars[label] = -s2;
+        else if(s2 == ONE)           // s1 in {v}, s2 in {1, v}, s1!=s2, s1!=-s2
+            // (s1, s2) in {
+            //
+            //
+            //    ( v, 1),                    ( v, w), ( v, -w),
+            //    (-v, 1),                    (-v, w), (-v, -w),
+            //    ( w, 1), ( w, v), ( w, -v),
+            //    (-w, 1), (-w, v), (-w, -v),
+            // }
+            res.vars[label] = -s1;
+        else                                     // s1 in {v}, s2 in {v}, s1!=s2, s1!=-s2
+            // (s1, s2) in {
+            //
+            //
+            //                                ( v, w), ( v, -w),
+            //                                (-v, w), (-v, -w),
+            //             ( w, v), ( w, -v),
+            //             (-w, v), (-w, -v),
+            // }
+            res.vars[label] = res.solver->make_xor(s1, s2);
+    }
+    // ...
+}

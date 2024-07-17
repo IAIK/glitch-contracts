@@ -1,0 +1,9 @@
+*.elf
+*.pdf
+.history/
+.vscode/
+build/
+venv
+output/
+__pycache__/
+
